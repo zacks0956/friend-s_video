@@ -1,0 +1,201 @@
+:root {
+    --bg-rose: #f7e7eb;
+    --bg-ivory: #fffaf2;
+    --bg-mint: #eaf6ef;
+    --panel: rgba(255, 255, 255, 0.82);
+    --panel-edge: rgba(209, 171, 93, 0.42);
+    --text: #503f44;
+    --muted: #7a6670;
+    --accent: #ca9b2d;
+    --accent-2: #f2c97f;
+    --shadow: rgba(116, 80, 30, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    font-family: "Zen Kaku Gothic New", "Yu Gothic", sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(900px 420px at 12% -12%, rgba(255, 255, 255, 0.75), transparent 65%),
+        radial-gradient(750px 430px at 88% 115%, rgba(242, 201, 127, 0.3), transparent 62%),
+        linear-gradient(140deg, var(--bg-rose), var(--bg-ivory) 55%, var(--bg-mint));
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(2px);
+    opacity: 0.55;
+    z-index: 0;
+}
+
+body::before {
+    top: -120px;
+    left: -60px;
+    background: radial-gradient(circle, rgba(242, 201, 127, 0.5), transparent 65%);
+    animation: drift 11s ease-in-out infinite;
+}
+
+body::after {
+    right: -90px;
+    bottom: -120px;
+    background: radial-gradient(circle, rgba(218, 142, 164, 0.45), transparent 62%);
+    animation: drift 13s ease-in-out infinite reverse;
+}
+
+.player {
+    position: relative;
+    z-index: 1;
+    width: min(980px, 100%);
+    border-radius: 30px;
+    padding: 30px;
+    background:
+        linear-gradient(155deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 240, 0.8)),
+        var(--panel);
+    border: 1px solid var(--panel-edge);
+    box-shadow:
+        0 26px 52px var(--shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    animation: reveal 800ms ease-out;
+}
+
+.hero {
+    margin-bottom: 20px;
+}
+
+.eyebrow {
+    margin: 0;
+    font-family: "Noto Serif JP", serif;
+    font-size: 0.76rem;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    color: #b1842b;
+}
+
+.hero h1 {
+    margin: 8px 0 8px;
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(2.4rem, 7vw, 4.8rem);
+    line-height: 0.94;
+    font-weight: 400;
+    color: #8f5f20;
+    text-shadow: 0 4px 10px rgba(186, 132, 26, 0.16);
+}
+
+.lead {
+    margin: 0;
+    color: var(--muted);
+    font-family: "Noto Serif JP", serif;
+    font-size: clamp(0.96rem, 1.8vw, 1.12rem);
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(202, 155, 45, 0.35);
+    box-shadow:
+        0 16px 35px rgba(113, 70, 17, 0.24),
+        0 0 0 1px rgba(255, 255, 255, 0.68) inset;
+}
+
+video {
+    width: 100%;
+    display: block;
+    background: #000;
+}
+
+.play-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 38%, rgba(255, 231, 187, 0.34), transparent 42%),
+        linear-gradient(to bottom, rgba(157, 108, 34, 0.3), rgba(83, 47, 14, 0.42));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: opacity 260ms ease;
+    pointer-events: auto;
+}
+
+.play-overlay button {
+    min-width: 120px;
+    height: 64px;
+    border: 1px solid rgba(152, 104, 23, 0.3);
+    border-radius: 999px;
+    padding: 0 24px;
+    background: linear-gradient(120deg, #fff6df, #f2cb80);
+    box-shadow: 0 9px 20px rgba(168, 112, 28, 0.35);
+    color: #7d4e14;
+    font-family: "Great Vibes", cursive;
+    font-size: 2rem;
+    line-height: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    touch-action: manipulation;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes drift {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(20px) translateX(14px);
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        padding: 14px;
+    }
+
+    .player {
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.2rem, 14vw, 3.4rem);
+    }
+
+    .play-overlay button {
+        min-width: 100px;
+        height: 56px;
+        padding: 0 18px;
+        font-size: 1.7rem;
+    }
+}

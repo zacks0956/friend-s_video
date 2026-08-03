@@ -1,29 +1,45 @@
-import { useState } from 'react';
-import './index.css';
+import { useRef, useState } from 'react';
 
 function App() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
 
   const handlePlay = async () => {
-    const video = document.getElementById('video');
-    if (video) {
-      try {
-        await video.play();
-        setIsPlaying(true);
-      } catch {
-        setIsPlaying(false);
-      }
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    try {
+      await video.play();
+      setIsOverlayVisible(false);
+    } catch {
+      setIsOverlayVisible(true);
     }
   };
 
   return (
     <main className="player">
+      <section className="hero" aria-label="Anniversary movie introduction">
+        <p className="eyebrow">ANNIVERSARY MOVIE</p>
+        <h1>Friend&apos;s Video</h1>
+        <p className="lead">大切な時間を、やわらかく上品に残すためのビデオプレーヤーです。</p>
+      </section>
+
       <div className="video-container">
-        <video id="video" controls playsInline>
+        <video
+          ref={videoRef}
+          id="video"
+          controls
+          playsInline
+          onPlay={() => setIsOverlayVisible(false)}
+          onEnded={() => setIsOverlayVisible(true)}
+        >
           <source src="/video/test.mp4" type="video/mp4" />
         </video>
 
-        {!isPlaying && (
+        {isOverlayVisible && (
           <div className="play-overlay" onClick={handlePlay}>
             <button type="button">tap</button>
           </div>
