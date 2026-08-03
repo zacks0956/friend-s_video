@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Video Player</title>
+	<link rel="stylesheet" href="videos.css">
+</head>
+<body>
+	<main class="player">
+		<h1>ビデオプレイヤー</h1>
+
+		<div class="controls">
+			<span class="label">動画ファイルを選択</span>
+			<input id="filePicker" type="file" accept="video/*">
+		</div>
+
+		<video id="video" controls autoplay>
+			<source src="sample.mp4" type="video/mp4">
+			お使いのブラウザは video タグに対応していません。
+		</video>
+
+		<p>
+			初期表示では <code>sample.mp4</code> を読み込みます。別の動画を再生したい場合は上のファイル選択から指定してください。
+		</p>
+	</main>
+
+	<script>
+		const filePicker = document.getElementById("filePicker");
+		const video = document.getElementById("video");
+
+		filePicker.addEventListener("change", () => {
+			const [file] = filePicker.files;
+			if (!file) {
+				return;
+			}
+
+			const objectUrl = URL.createObjectURL(file);
+			video.src = objectUrl;
+			video.play().catch(() => {
+				// Some browsers may block autoplay until user gesture.
+			});
+
+			video.onloadeddata = () => {
+				URL.revokeObjectURL(objectUrl);
+			};
+		});
+	</script>
+</body>
+</html>
